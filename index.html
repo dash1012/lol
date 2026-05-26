@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리그 오브 레전드(League of Legends) 종합 소개</title>
+    <style>
+        :root {
+            --bg-color: #010a13;
+            --container-bg: #091420;
+            --card-bg: #112031;
+            --accent-gold: #c8aa6e;
+            --accent-gold-hover: #e4c27e;
+            --text-color: #f0e6d2;
+            --text-muted: #a0aab5;
+            --border-color: #32281e;
+            --font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background: linear-gradient(rgba(1, 10, 19, 0.7), rgba(1, 10, 19, 0.95)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: '◆';
+            font-size: 1rem;
+            margin-right: 10px;
+            color: var(--accent-gold);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--text-color);
+            text-align: justify;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        /* Gameplay Grid */
+        .gameplay-mechanics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .mechanic-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(200, 170, 110, 0.2);
+            border-radius: 4px;
+            padding: 20px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .mechanic-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .mechanic-card h4 {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        /* Lanes Section */
+        .lanes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .lane-box {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--accent-gold);
+            padding: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .lane-box h3 {
+            margin-top: 0;
+            color: var(--accent-gold);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .lane-tag {
+            font-size: 0.8rem;
+            background-color: var(--bg-color);
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        /* Champions Section */
+        .roles-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .role-block {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .role-title {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .champion-list {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            background-color: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: justify;
+        }
+
+        /* Teams Section */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .team-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .team-hle::after { background-color: #ff6b00; }
+        .team-geng::after { background-color: #aa8a4a; }
+        .team-t1::after { background-color: #e4002b; }
+
+        .team-card h3 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+        
+        .team-hle h3 { color: #ff6b00; }
+        .team-geng h3 { color: #aa8a4a; }
+        .team-t1 h3 { color: #e4002b; }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--container-bg);
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            section { padding: 20px; }
+            .gameplay-mechanics, .teams-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>League of Legends</h1>
+        <p>라이엇 게임즈가 선사하는 세계 최고의 MOBA 전장, 소환사의 협곡에 오신 것을 환영합니다.</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- 1. 게임 소개 및 플레이 방법 -->
+        <section id="gameplay">
+            <h2>게임 핵심 메커니즘 & 플레이 흐름</h2>
+            <p>리그 오브 레전드(LoL)는 5명의 플레이어가 한 팀을 이루어 상대 팀의 기지에 있는 핵심 건축물인 '넥서스(Nexus)'를 파괴하는 것을 최종 목표로 삼습니다. 화려한 피지컬 중심의 교전, 고도의 심리전, 그리고 실시간으로 변화하는 전략적 판단이 결합된 전술 매치입니다.</p>
+            
+            <div class="gameplay-mechanics">
+                <div class="mechanic-card">
+                    <h4>① 성장과 자원 관리</h4>
+                    <p>주기적으로 생성되는 AI 몬스터 '미니언'에게 마지막 타격을 입히는 <strong>최후의 일격(Last Hit)</strong>을 통해 골드를 수급합니다. 획득한 골드와 경험치로 레벨을 올리고 강력한 아이템을 구매하여 챔피언을 성장시킵니다.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h4>② 오브젝트 제어 및 시야 싸움</h4>
+                    <p>안개로 가려진 맵의 시야를 밝히는 <strong>'와드(Ward)'</strong> 활용이 필수적입니다. 포탑과 억제기를 철거하여 라인을 압박하고, 공허 유충, 전령, 드래곤, 내셔 남작(바론) 등 에픽 몬스터를 처치하여 팀 전체에 강력한 버프를 제공합니다.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h4>③ 전술의 꽃 '한타'</h4>
+                    <p>게임 중후반 오브젝트나 기지 방어를 두고 벌어지는 5대5 대규모 교전입니다. 탱커의 진형 유지, 브루저의 진형 붕괴, 딜러진의 지속 화력이 유기적으로 연계되어야 하며, 한타의 승리는 곧 게임의 종결로 이어집니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 포지션 및 라인 설명 -->
+        <section id="positions">
+            <h2>소환사의 협곡 5대 포지션</h2>
+            <p>전장은 상단, 중단, 하단 세 갈래 길과 그 사이의 정글 구역으로 나뉘며, 각 포지션은 명확하고 뚜렷한 임무를 가집니다.</p>
+            
+            <div class="lanes-container">
+                <div class="lane-box">
+                    <h3>탑 (Top) <span class="lane-tag">고독한 전사</span></h3>
+                    <p>기지와 가장 멀리 떨어진 고립된 라인으로 1대1 전투가 치열하게 펼쳐집니다. 팀의 메인 탱커로서 앞선을 지키거나, 홀로 라인을 밀어붙여 적을 분산시키는 '스플릿 푸시(Split Push)' 전략을 전담합니다.</p>
+                </div>
+                
+                <div class="lane-box">
+                    <h3>정글 (Jungle) <span class="lane-tag">협곡의 지휘관</span></h3>
+                    <p>라인에 상주하지 않고 맵 전역의 수풀과 캠프를 돌며 중립 몬스터를 사냥합니다. 미니맵 전체를 주시하며 기습 공격인 '갱킹(Ganking)'을 시도하고, 강타(Smite) 주문으로 대형 오브젝트의 최종 소유권을 확보합니다.</p>
+                </div>
+                
+                <div class="lane-box">
+                    <h3>미드 (Mid) <span class="lane-tag">전장의 중심</span></h3>
+                    <p>맵 중앙의 가장 짧은 라인으로 미니언 합류가 빨라 성장 속도가 높습니다. 사방으로 이동하기 좋은 요충지이므로, 폭발적인 메이지나 암살자가 배치되어 타 라인을 지원하는 '로밍(Roaming)'을 활발히 펼칩니다.</p>
+                </div>
+                
+                <div class="lane-box">
+                    <h3>바텀 원거리 딜러 (Bottom AD Carry) <span class="lane-tag">최종 병기</span></h3>
+                    <p>초반에는 내구도가 낮아 약하지만, 아이템이 갖춰질수록 기본 공격을 바탕으로 상상치 못한 지속 물리 화력을 뿜어냅니다. 후반 교전 시 안전한 거리를 유지하며 팀의 메인 화력을 책임지는 후반의 꽃입니다.</p>
+                </div>
+                
+                <div class="lane-box">
+                    <h3>서포터 (Support) <span class="lane-tag">이타적 조력자</span></h3>
+                    <p>원거리 딜러와 동행하며 미니언 골드를 양보하는 대신 팀의 전술적 이점을 극대화합니다. 맵의 시야 싸움을 주도하며, 아군을 보호(케어)하거나 군중 제어기(CC)로 먼저 싸움을 거는 '이니시에이팅'을 담당합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 171개 챔피언 소개 -->
+        <section id="champions">
+            <h2>171개 챔피언 역할군 및 세부 분류</h2>
+            <p>리그 오브 레전드에는 고유의 메커니즘을 가진 171개의 영웅들이 존재하며, 조합에 따라 무한한 변수와 시너지를 발휘합니다.</p>
+            
+            <div class="roles-container">
+                <div class="role-block">
+                    <div class="role-title">전사 (Fighter) - 다재다능한 근접 브루저</div>
+                    <p>지속 공격력과 내구도를 고루 갖추어 근접 난전에 특화된 영웅들입니다.</p>
+                    <div class="champion-list">
+                        가렌, 갈리오, 그레이브즈, 나르, 나서스, 녹턴, 누누와 윌럼프, 다리우스, 다이애나, 람머스, 레넥톤, 레오나, 렐, 렝가, 리 신, 마스터 이, 마오카이, 말파이트, 문도 박사, 바이, 볼리베어, 브라이어, 브라움, 뽀삐, 사이온, 사일러스, 세주아니, 세트, 소라카, 신지드, 쓰레쉬, 아트록스, 야스오, 에코, 엘리스, 오공, 오른, 요네, 요릭, 우디르, 우르곳, 워윅, 이렐리아, 일라오이, 자반 4세, 자크, 잭스, 제이스, 초가스, 카밀, 카사딘, 카타리나, 케일, 케인, 클레드, 타릭, 트런들, 트린다미어, 판테온, 피오라, 헤카림 등
+                    </div>
+                </div>
+
+                <div class="role-block">
+                    <div class="role-title">마법사 (Mage) - 스킬 기반의 광역 딜러</div>
+                    <p>주문 스킬을 사용하여 원거리에서 막대한 피해를 주거나 전장을 제어합니다.</p>
+                    <div class="champion-list">
+                        니코, 라이즈, 럭스, 르블랑, 리산드라, 말자하, 모데카이저, 모르가나, 바드, 베이가, 벨코즈, 브랜드, 블라디미르, 빅토르, 스웨인, 신드라, 아리, 아우렐리온 솔, 아지르, 애니, 애니비아, 오리아나, 벡스, 제라스, 조이, 직스, 카르마, 카서스, 카시오페아, 카타리나, 탈리야, 트위스티드 페이트, 흐웨이 등
+                    </div>
+                </div>
+
+                <div class="role-block">
+                    <div class="role-title">암살자 (Assassin) - 일격 필살의 전문가</div>
+                    <p>뛰어난 기동성으로 방어력이 낮은 적의 핵심 딜러를 순식간에 제거하고 탈출합니다.</p>
+                    <div class="champion-list">
+                        니달리, 렝가, 샤코, 아칼리, 에코, 이블린, 제드, 카사딘, 카직스, 카타리나, 키아나, 탈론, 파이크, 피즈 등
+                    </div>
+                </div>
+
+                <div class="role-block">
+                    <div class="role-title">원거리 딜러 (Marksman) - 지속 물리 화력의 핵심</div>
+                    <p>안전한 사거리를 확보한 상태에서 지속적인 원거리 물리 피해(AD)를 입히는 후반의 주역입니다.</p>
+                    <div class="champion-list">
+                        드레이븐, 루시안, 미스 포츈, 바루스, 베인, 사미라, 시비르, 아크샨, 아펠리오스, 애쉬, 이즈리얼, 자야, 제리, 진, 징크스, 카이사, 칼리스타, 코그모, 킨드레드, 퀸, 티모, 트리스타나, 트위치, 스몰더 등
+                    </div>
+                </div>
+
+                <div class="role-block">
+                    <div class="role-title">탱커 (Tank) - 최전선을 수호하는 철벽</div>
+                    <p>압도적인 방어력과 체력을 바탕으로 적의 화력을 흡수하고 군중 제어기로 아군을 지킵니다.</p>
+                    <div class="champion-list">
+                        나르, 나서스, 노틸러스, 누누와 윌럼프, 람머스, 레오나, 렐, 말파이트, 문도 박사, 블리츠크랭크, 뽀삐, 사이온, 세주아니, 쉔, 스카너, 신지드, 아무무, 알리스타, 오른, 우르곳, 자크, 초가스, 탐 켄치, 크산테 등
+                    </div>
+                </div>
+
+                <div class="role-block">
+                    <div class="role-title">서포터 및 제어사 (Controller/Enchanter) - 유틸리티의 극치</div>
+                    <p>아군에게 보호막, 힐, 능력치 버프를 제공하여 생존력을 극대화하는 조력자입니다.</p>
+                    <div class="champion-list">
+                        나미, 라칸, 레나타 글라스크, 룰루, 밀리오, 바드, 브라움, 세나, 세라핀, 소나, 소라카, 쓰레쉬, 아이번, 유미, 자이라, 잔나, 질리언, 타릭 등
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. LCK 삼대 거함 한젠티 -->
+        <section id="lck-teams">
+            <h2>LCK 최고의 명문 구단: 한젠티 분석</h2>
+            <p>대한민국 프로 리그인 LCK(LoL Champions Korea)를 지배하며 세계적인 명성을 떨치고 있는 명문 3개 팀의 고유 스타일입니다.</p>
+            
+            <div class="teams-grid">
+                <div class="team-card team-hle">
+                    <h3>한화생명e스포츠 (HLE)</h3>
+                    <strong>압도적인 체급과 후반 파괴력</strong>
+                    <p style="margin-top: 10px;">선수 개개인의 강력한 라인전 능력을 바탕으로 기초 체급이 매우 높습니다. 꼼꼼한 운영 속에서도 중요한 오브젝트 앞에서의 대규모 교전(한타) 집중력이 세계 최고 수준이며, 불리한 상황도 완벽한 한타 연계로 뒤집어버리는 파괴전차 같은 팀입니다.</p>
+                </div>
+
+                <div class="team-card team-geng">
+                    <h3>젠지 (Gen.G)</h3>
+                    <strong>완벽한 두뇌 플레이와 무결점 운영</strong>
+                    <p style="margin-top: 10px;">철저한 계산과 빈틈없는 매크로(운영)를 기반으로 작동하는 밸런스의 끝판왕입니다. 리스크가 큰 도박성 플레이를 지양하고 확정적인 시야 장악과 동선 이득을 취하며, 한번 잡은 주도권을 놓치지 않고 상대를 완벽히 압박해 나가는 정교함을 자랑합니다.</p>
+                </div>
+
+                <div class="team-card team-t1">
+                    <h3>T1</h3>
+                    <strong>예측 불허의 전술과 독보적인 클러치 능력</strong>
+                    <p style="margin-top: 10px;">e스포츠 역사상 최고의 명문 구단으로, 전설적인 '페이커(Faker)' 선수를 중심으로 운영됩니다. 독창적이고 변칙적인 챔피언 조합(서커스 롤)에 능하며, 큰 무대와 위기 상황일수록 상상치 못한 타이밍에 변수를 만들어내 경기를 뒤집는 세계 최고의 토너먼트 강자입니다.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 League of Legends Introduction Page. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
