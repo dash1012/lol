@@ -1,267 +1,368 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>부산 소개하기 - Dynamic Busan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>부산 소개하기</title>
+    
+    <!-- 프리미엄 폰트 (Pretendard) 적용 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- Tailwind CSS 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 아이콘 (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind 설정 및 커스텀 CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                    },
+                    colors: {
+                        busan: {
+                            blue: '#005A9C',
+                            dark: '#0f172a',
+                            light: '#f8fafc',
+                            accent: '#38bdf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* 기본 스타일 설정 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Sans KR', sans-serif;
+        /* 커스텀 스크롤바 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #005A9C;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00447a;
         }
 
-        body {
-            line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
+        /* 텍스트 그라데이션 */
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* 헤더 및 내비게이션 */
-        header {
-            background-color: #005A9C; /* 부산을 상징하는 바다색 */
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        /* 스크롤 애니메이션 클래스 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav h1 {
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 400;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #FFD700;
-        }
-
-        /* 메인 히어로 섹션 */
-        #hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1590211158580-b74c1071d797?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        #hero h2 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        #hero p {
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-
-        /* 공통 섹션 스타일 */
-        section {
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: #005A9C;
-        }
-
-        /* 소개 섹션 */
-        #about p {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            color: #555;
-        }
-
-        /* 카드 그리드 레이아웃 (명소, 음식) */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 8px;
+        /* 이미지 호버 줌 효과 */
+        .img-zoom-container {
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
+        .img-zoom-container img {
+            transition: transform 0.5s ease;
         }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: #222;
-        }
-
-        .card-content p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* 푸터 */
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
-        }
-
-        /* 모바일 반응형 */
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-            }
-            nav ul {
-                margin-top: 15px;
-            }
-            nav ul li {
-                margin: 0 10px;
-            }
-            #hero h2 {
-                font-size: 2rem;
-            }
+        .img-zoom-container:hover img {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased bg-busan-light text-slate-800">
 
-    <header>
-        <div class="container">
-            <nav>
-                <h1>🌊 다이내믹 부산</h1>
-                <ul>
-                    <li><a href="#about">소개</a></li>
-                    <li><a href="#attractions">주요 명소</a></li>
-                    <li><a href="#food">대표 음식</a></li>
-                </ul>
-            </nav>
+    <!-- 내비게이션 바 -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent text-white py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tighter flex items-center gap-2">
+                <i class="fa-solid fa-water text-busan-accent"></i>
+                부산 소개하기
+            </a>
+            <ul class="hidden md:flex space-x-8 font-medium">
+                <li><a href="#about" class="hover:text-busan-accent transition-colors">소개</a></li>
+                <li><a href="#attractions" class="hover:text-busan-accent transition-colors">주요 명소</a></li>
+                <li><a href="#food" class="hover:text-busan-accent transition-colors">대표 음식</a></li>
+            </ul>
+            <!-- 모바일 메뉴 버튼 -->
+            <button class="md:hidden text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 히어로 섹션 (메인 배너) -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- 배경 이미지 및 오버레이 -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=2000&auto=format&fit=crop" alt="Busan Skyline" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80"></div>
+        </div>
+        
+        <!-- 히어로 콘텐츠 -->
+        <div class="relative z-10 text-center text-white px-4">
+            <span class="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-sm text-sm font-semibold mb-4 border border-white/30">
+                Dynamic Busan
+            </span>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
+                아름다운 해양 수도, <br/>
+                <span class="text-busan-accent">부산</span>을 만나다
+            </h1>
+            <p class="text-lg md:text-2xl text-slate-200 font-light max-w-2xl mx-auto mb-10">
+                전통과 현대, 그리고 에메랄드빛 바다가 공존하는 매력적인 도시로 여러분을 초대합니다.
+            </p>
+            <a href="#about" class="inline-flex items-center gap-2 px-8 py-4 bg-busan-accent hover:bg-blue-500 text-white rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30">
+                부산 탐험하기 <i class="fa-solid fa-arrow-down"></i>
+            </a>
         </div>
     </header>
 
-    <section id="hero">
-        <div class="container">
-            <h2>아름다운 해양 도시, 부산</h2>
-            <p>전통과 현대, 그리고 에메랄드빛 바다가 공존하는 매력적인 도시로 여러분을 초대합니다.</p>
+    <main>
+        <!-- 소개 섹션 -->
+        <section id="about" class="py-24 px-6 md:px-12 bg-white">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center reveal">
+                <div class="relative img-zoom-container rounded-2xl shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1616886981242-a42e56ccce22?q=80&w=1000&auto=format&fit=crop" alt="부산 전경" class="w-full h-[500px] object-cover rounded-2xl" />
+                    <div class="absolute -bottom-6 -right-6 bg-busan-blue text-white p-8 rounded-2xl hidden md:block shadow-xl">
+                        <p class="text-4xl font-bold mb-1">2nd</p>
+                        <p class="text-sm font-light text-blue-100">대한민국 제2의 도시</p>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-busan-blue tracking-widest uppercase mb-2">About Busan</h2>
+                    <h3 class="text-4xl font-bold mb-6 text-slate-900">바다와 도시가 어우러진<br/>끝없는 매력</h3>
+                    <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                        부산은 대한민국 최대의 항구 도시이자, 화려한 마천루와 눈부신 해수욕장이 공존하는 글로벌 관광 도시입니다. 
+                        사계절 내내 끊이지 않는 축제와 활기찬 시장, 그리고 친절한 사람들의 미소가 여러분을 기다립니다.
+                    </p>
+                    <ul class="space-y-4 text-slate-700">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check-circle text-busan-accent text-xl"></i>
+                            <span>해운대, 광안리 등 세계적인 해수욕장 보유</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check-circle text-busan-accent text-xl"></i>
+                            <span>부산국제영화제(BIFF) 등 아시아 문화의 중심지</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check-circle text-busan-accent text-xl"></i>
+                            <span>신선한 해산물과 다채로운 로컬 미식의 천국</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 명소 섹션 -->
+        <section id="attractions" class="py-24 px-6 md:px-12 bg-slate-50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-sm font-bold text-busan-blue tracking-widest uppercase mb-2">Destinations</h2>
+                    <h3 class="text-4xl font-bold text-slate-900 mb-4">반드시 방문해야 할 주요 명소</h3>
+                    <p class="text-slate-600 max-w-2xl mx-auto text-lg">부산의 아름다운 풍경과 독특한 문화를 경험할 수 있는 최고의 장소들을 소개합니다.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- 명소 카드 1 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal group">
+                        <div class="h-64 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1623869033324-4f2430ceab41?q=80&w=800&auto=format&fit=crop" alt="광안대교" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-busan-blue px-3 py-1 rounded-full text-sm font-bold">
+                                랜드마크
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <h4 class="text-2xl font-bold mb-3 text-slate-900 group-hover:text-busan-blue transition-colors">광안리 & 광안대교</h4>
+                            <p class="text-slate-600 leading-relaxed mb-4">
+                                다이아몬드 브릿지라 불리는 광안대교의 화려한 야경은 부산에서 절대 놓쳐서는 안 될 최고의 풍경입니다. 해변 카페거리에서의 커피 한 잔도 잊지 마세요.
+                            </p>
+                            <a href="#" class="text-busan-blue font-semibold flex items-center gap-2 hover:text-busan-accent transition-colors">
+                                더 알아보기 <i class="fa-solid fa-arrow-right text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 명소 카드 2 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal group" style="transition-delay: 100ms;">
+                        <div class="h-64 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1597816823908-1402ba6dd751?q=80&w=800&auto=format&fit=crop" alt="감천문화마을" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-busan-blue px-3 py-1 rounded-full text-sm font-bold">
+                                문화/예술
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <h4 class="text-2xl font-bold mb-3 text-slate-900 group-hover:text-busan-blue transition-colors">감천문화마을</h4>
+                            <p class="text-slate-600 leading-relaxed mb-4">
+                                산자락을 따라 늘어선 파스텔 톤의 집들이 빚어내는 '한국의 마추픽추'. 골목골목 숨겨진 벽화와 예술 작품, 어린왕자 포토존을 즐겨보세요.
+                            </p>
+                            <a href="#" class="text-busan-blue font-semibold flex items-center gap-2 hover:text-busan-accent transition-colors">
+                                더 알아보기 <i class="fa-solid fa-arrow-right text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 명소 카드 3 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal group" style="transition-delay: 200ms;">
+                        <div class="h-64 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?q=80&w=800&auto=format&fit=crop" alt="해운대" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-busan-blue px-3 py-1 rounded-full text-sm font-bold">
+                                핫플레이스
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <h4 class="text-2xl font-bold mb-3 text-slate-900 group-hover:text-busan-blue transition-colors">해운대 해수욕장</h4>
+                            <p class="text-slate-600 leading-relaxed mb-4">
+                                푸른 바다와 마린시티의 고층 빌딩 숲이 이루는 스카이라인이 장관을 이룹니다. 해변 열차를 타고 즐기는 해안 절경도 훌륭합니다.
+                            </p>
+                            <a href="#" class="text-busan-blue font-semibold flex items-center gap-2 hover:text-busan-accent transition-colors">
+                                더 알아보기 <i class="fa-solid fa-arrow-right text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 음식 섹션 -->
+        <section id="food" class="py-24 px-6 md:px-12 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
+                    <div>
+                        <h2 class="text-sm font-bold text-busan-blue tracking-widest uppercase mb-2">Local Food</h2>
+                        <h3 class="text-4xl font-bold text-slate-900">입이 즐거운 부산의 맛</h3>
+                    </div>
+                    <p class="text-slate-600 max-w-md mt-4 md:mt-0 text-lg">부산에서만 맛볼 수 있는 특별하고 정겨운 소울푸드를 만나보세요.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 음식 1 -->
+                    <div class="relative rounded-2xl overflow-hidden group h-80 reveal">
+                        <img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80&w=800&auto=format&fit=crop" alt="돼지국밥" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                            <span class="text-busan-accent font-semibold mb-1">든든한 한 끼</span>
+                            <h4 class="text-white text-2xl font-bold mb-2">돼지국밥</h4>
+                            <p class="text-slate-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
+                                진하게 우려낸 돼지 사골 육수에 부드러운 고기가 듬뿍 들어간 부산 사람들의 진정한 소울푸드.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 음식 2 -->
+                    <div class="relative rounded-2xl overflow-hidden group h-80 reveal" style="transition-delay: 100ms;">
+                        <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=800&auto=format&fit=crop" alt="밀면" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                            <span class="text-busan-accent font-semibold mb-1">시원한 여름 별미</span>
+                            <h4 class="text-white text-2xl font-bold mb-2">밀면</h4>
+                            <p class="text-slate-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
+                                쫄깃한 밀가루 면발에 살얼음 동동 띄운 육수와 매콤달콤한 양념장을 얹어 먹는 별미 중의 별미.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 음식 3 -->
+                    <div class="relative rounded-2xl overflow-hidden group h-80 reveal" style="transition-delay: 200ms;">
+                        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800&auto=format&fit=crop" alt="씨앗호떡" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                            <span class="text-busan-accent font-semibold mb-1">남포동 명물</span>
+                            <h4 class="text-white text-2xl font-bold mb-2">씨앗호떡</h4>
+                            <p class="text-slate-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">
+                                마가린에 바삭하게 구워낸 호떡 배를 갈라 각종 견과류를 가득 채워 넣은 고소하고 달콤한 간식.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="bg-busan-dark text-slate-300 py-12 px-6 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <a href="#" class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-water text-busan-accent"></i>
+                    부산 소개하기
+                </a>
+                <p class="text-sm leading-relaxed text-slate-400">
+                    다이내믹 부산. 전통과 낭만, 글로벌 해양 인프라가 어우러진 매력적인 도시에 오신 것을 환영합니다.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#about" class="hover:text-busan-accent transition-colors">소개</a></li>
+                    <li><a href="#attractions" class="hover:text-busan-accent transition-colors">주요 명소</a></li>
+                    <li><a href="#food" class="hover:text-busan-accent transition-colors">대표 음식</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Connect</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-busan-accent hover:text-white transition-colors">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-busan-accent hover:text-white transition-colors">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-busan-accent hover:text-white transition-colors">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-    </section>
-
-    <section id="about" class="container">
-        <h2 class="section-title">부산에 대하여</h2>
-        <p>부산은 대한민국 제2의 도시이자 최대의 항구 도시입니다. 화려한 해수욕장, 아름다운 야경, 풍부한 해산물, 그리고 다채로운 문화가 어우러져 매년 수많은 국내외 관광객이 찾는 글로벌 관광 도시입니다.</p>
-    </section>
-
-    <section id="attractions" class="container">
-        <h2 class="section-title">주요 명소</h2>
-        <div class="grid-container">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1623869033324-4f2430ceab41?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="광안대교">
-                <div class="card-content">
-                    <h3>광안리 & 광안대교</h3>
-                    <p>밤이 되면 화려한 조명으로 빛나는 광안대교의 야경은 부산에서 절대 놓쳐서는 안 될 최고의 풍경입니다.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1597816823908-1402ba6dd751?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="감천문화마을">
-                <div class="card-content">
-                    <h3>감천문화마을</h3>
-                    <p>산자락을 따라 늘어선 파스텔 톤의 집들이 아름다운 '한국의 마추픽추'. 골목골목 숨겨진 벽화와 예술 작품을 즐겨보세요.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="해운대">
-                <div class="card-content">
-                    <h3>해운대 해수욕장</h3>
-                    <p>대한민국에서 가장 유명한 해수욕장으로, 푸른 바다와 고층 빌딩 숲이 이루는 스카이라인이 장관을 이룹니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="food" class="container">
-        <h2 class="section-title">부산의 맛</h2>
-        <div class="grid-container">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="돼지국밥">
-                <div class="card-content">
-                    <h3>돼지국밥</h3>
-                    <p>돼지 뼈를 푹 고아 낸 진한 육수에 밥을 말아 먹는 부산의 소울푸드입니다. 든든하고 따뜻한 한 끼로 최고입니다.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="밀면">
-                <div class="card-content">
-                    <h3>밀면</h3>
-                    <p>밀가루로 만든 쫄깃한 면발에 매콤달콤한 양념장이나 시원한 육수를 더해 먹는 부산 대표 여름 별미입니다.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="씨앗호떡">
-                <div class="card-content">
-                    <h3>씨앗호떡</h3>
-                    <p>바삭하게 구운 호떡을 반으로 갈라 해바라기씨, 호박씨 등 고소한 견과류를 듬뿍 채워 넣은 인기 길거리 간식입니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Welcome to Busan. All rights reserved.</p>
-            <p style="font-size: 0.8rem; margin-top: 5px; color: #aaa;">이 웹사이트는 부산을 소개하기 위해 제작된 샘플 페이지입니다.</p>
+        <div class="max-w-7xl mx-auto text-center pt-8 border-t border-slate-800 text-sm text-slate-500">
+            <p>&copy; 2026 부산 소개하기 (Introducing Busan). All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- 자바스크립트 : 스크롤 애니메이션 및 헤더 배경 변경 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 헤더 스크롤 배경 변경
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'text-slate-800');
+                    navbar.classList.remove('bg-transparent', 'text-white');
+                } else {
+                    navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'text-slate-800');
+                    navbar.classList.add('bg-transparent', 'text-white');
+                }
+            });
+
+            // 2. 스크롤 시 요소 나타나기 애니메이션 (Intersection Observer)
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealOnScroll.observe(el);
+            });
+        });
+    </script>
 </body>
 </html>
